@@ -3,6 +3,8 @@ const express = require("express");
 const req = require("express/lib/request");
 const { type } = require("express/lib/response");
 const res = require("express/lib/response");
+const { fstat } = require('fs');
+const fs=require('fs');
 const app=express();
 const port=process.env.PORT;
 var mysql=require('mysql');
@@ -22,6 +24,12 @@ app.get('/laptopok',(req,res)=>{
         if (err) {
             res.status(500).send(err);
         } else {
+            
+            fs.writeFile('laptopok.csv',JSON.stringify(result), (err)=>{
+                if(err){
+                    res.send(err);
+                }
+            });
             res.status(200).send(result);
         }
     });
